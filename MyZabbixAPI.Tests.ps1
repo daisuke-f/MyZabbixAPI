@@ -39,6 +39,18 @@ Describe "Invoke-Zabbix" {
         
         $resp | Should -Match '^[0-9]+(\.[0-9]+)*$'
     }
+
+    It "invokes Zabbix APIs with a parameter of Array type" {
+        $credential = [PSCredential]::new($ZabbixUserName, (ConvertTo-SecureString $ZabbixPassword -AsPlainText))
+
+        Connect-Zabbix $ZabbixUri $credential
+
+        # Theses minus scriptids never exist. So we safely use them to test for executing delete APIs.
+        # A parameter error might be returned from Zabbix but we don't care in this test case.
+        { Invoke-Zabbix script.delete @( -1, -2 ) -RawResponse } | Should -Not -Throw
+
+        Disconnect-Zabbix
+    }
 }
 
 Describe "Connect-Zabbix" {

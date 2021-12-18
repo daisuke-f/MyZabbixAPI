@@ -110,7 +110,7 @@ function Invoke-Zabbix {
     [CmdletBinding()]
     param(
         [parameter(mandatory)][string] $Method,
-        [hashtable] $Parameter = @{},
+        $Parameter = @{},
         $Context,
         [switch] $RawResponse
     )
